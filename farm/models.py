@@ -10,7 +10,7 @@ class Field(models.Model):
     location = models.CharField(max_length=255)
     tea_variety = models.CharField(max_length=10, null=True,blank=True)
     alitutude = models.IntegerField(blank=True,null=True)
-    soil_type = models.CharField(max_length=10,blank=True,null=True)
+    soil_type = models.CharField(max_length=255,blank=True,null=True)
     soil_fertility = models.CharField(max_length=10,blank=True,null=True)
     soil_structure = models.CharField(max_length=10,blank=True,null=True)
     soil_drainage = models.CharField(max_length=10,blank=True,null=True)
@@ -24,8 +24,15 @@ class Field(models.Model):
 
 
 class Activity(models.Model):
+    FIELD_ACTIVITY_CHOICES = [
+        ('harvest', 'Harvest'),
+        ('planting', 'Planting'),
+        ('irrigation', 'Irrigation'),
+        # Add more activity types as needed
+    ]
+    
     field = models.ForeignKey(Field, related_name='activities', on_delete=models.CASCADE)
-    activity_type = models.CharField(max_length=50)  # e.g., "Harvest"
+    activity_type = models.CharField(max_length=50, choices=FIELD_ACTIVITY_CHOICES)  # Updated with choices
     harvest_type = models.CharField(
         max_length=50,
         choices=[('manual', 'Manual'), ('machine', 'Machine')],
@@ -39,6 +46,7 @@ class Activity(models.Model):
     next_harvest_date = models.DateTimeField(blank=True, null=True)
     details = models.JSONField(blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
         return f"Activity: {self.activity_type} on Field ID: {self.field.id}, User Email: {self.field.user.email}"
@@ -55,32 +63,40 @@ class Activity(models.Model):
         super().save(*args, **kwargs)
 
     def choose_harvest_type(self):
-        # Prefer machine if the slope is not steep
-        return 'machine' if self.field.slope.lower() != 'steep' else 'manual'
+        # Prefer machine if the slope is not steep and the elevation is not very high
+        if self.field.slope.lower() != 'steep' and self.field.elevation < 1000:
+            return 'machine'
+        return 'manual'
 
     def calculate_num_workers(self):
         # Example logic based on farm size and harvesting method
+        field_size = self.field.size
         if self.harvest_type == 'manual':
-            return int(self.field.size * 10)  # Adjust multiplier as needed
+            # Manual harvest requires more workers (around 10 workers per hectare, adjust as necessary)
+            return int(field_size * 10)  # 10 workers per hectare
         elif self.harvest_type == 'machine':
-            return max(1, int(self.field.size * 2))  # Machine requires fewer workers
+            # Machine harvest requires fewer workers (around 2 workers per hectare)
+            return max(1, int(field_size * 2))  # At least 1 worker for machine
         return 0
 
     def calculate_expected_yield(self):
-        # Ensure that the multiplication involves Decimal types
-        elevation_factor = Decimal(100) - (Decimal(self.field.elevation) * Decimal(0.1) if self.field.elevation else Decimal(0))
-        return round(self.field.size * elevation_factor, 2)
+        # Elevation affects yield, but also soil type and weather play a big role
+        elevation_factor = Decimal(100) - (Decimal(self.field.elevation) * Decimal(0.05)) if self.field.elevation else Decimal(0)
+        soil_quality_factor = Decimal(1.2)  # Example: Soil quality impacts yield by 20%
+        return round(self.field.size * elevation_factor * soil_quality_factor, 2)
 
     def calculate_cost(self):
         # Calculate cost based on the harvesting method and number of workers
         labor_cost_per_worker = 100 if self.harvest_type == 'manual' else 50
-        machine_cost = 500 if self.harvest_type == 'machine' else 0
-        return self.num_workers * labor_cost_per_worker + machine_cost
+        machine_cost_per_hectare = 500 if self.harvest_type == 'machine' else 0
+        # Cost formula includes both worker and machine cost (machine cost is per hectare)
+        return (self.num_workers * labor_cost_per_worker) + (machine_cost_per_hectare * self.field.size)
 
     def get_next_harvest_date(self):
         # If self.date is None, set it to the current date and time
         if not self.date:
             self.date = timezone.now()  # Assuming you're using Django's timezone functionality
+        # Next harvest is approximately 14 days from the current date
         return self.date + timedelta(days=14)
 
 
