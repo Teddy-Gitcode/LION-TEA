@@ -1,8 +1,8 @@
-from django.db import models
+from django.db import models # type: ignore
 from users.models import CustomUser
 from decimal import Decimal
 from datetime import timedelta
-from django.utils import timezone
+from django.utils import timezone # type: ignore
 
 class Field(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='fields')
