@@ -4,9 +4,8 @@ from decimal import Decimal
 from datetime import timedelta
 from django.utils import timezone
 
-
 class Field(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='fields')
     location = models.CharField(max_length=255)
     tea_variety = models.CharField(max_length=10, null=True,blank=True)
     alitutude = models.IntegerField(blank=True,null=True)
@@ -23,81 +22,90 @@ class Field(models.Model):
         return f"Field ID: {self.id}, Location: {self.location}, User Email: {self.user.email}"
 
 
+
+from datetime import timedelta
+from decimal import Decimal
+
+
+from datetime import timedelta
+from decimal import Decimal
+
 class Activity(models.Model):
     FIELD_ACTIVITY_CHOICES = [
         ('harvest', 'Harvest'),
-        ('planting', 'Planting'),
+        ('pruning', 'Pruning'),
         ('irrigation', 'Irrigation'),
-        # Add more activity types as needed
+        ('fertilizing', 'Fertilizing'),
     ]
-    
+
     field = models.ForeignKey(Field, related_name='activities', on_delete=models.CASCADE)
-    activity_type = models.CharField(max_length=50, choices=FIELD_ACTIVITY_CHOICES)  # Updated with choices
-    harvest_type = models.CharField(
-        max_length=50,
-        choices=[('manual', 'Manual'), ('machine', 'Machine')],
-        blank=True,
-        null=True
-    )
-    num_workers = models.IntegerField(blank=True, null=True)  # Auto-calculated
-    expected_yield_kg = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # Auto-calculated
-    cost_estimate = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # Auto-calculated
+    activity_type = models.CharField(max_length=50, choices=FIELD_ACTIVITY_CHOICES)
+    harvest_type = models.CharField(max_length=50, blank=True, null=True)
+    num_workers = models.IntegerField(blank=True, null=True)
+    expected_yield_kg = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    cost_estimate = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     last_harvest_date = models.DateTimeField(null=True, blank=True)
     next_harvest_date = models.DateTimeField(blank=True, null=True)
     details = models.JSONField(blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
 
-
-    def __str__(self):
-        return f"Activity: {self.activity_type} on Field ID: {self.field.id}, User Email: {self.field.user.email}"
-
-    def save(self, *args, **kwargs):
-        # Choose harvest type based on slope and elevation
-        if not self.harvest_type:
-            self.harvest_type = self.choose_harvest_type()
-        # Calculate other fields
-        self.num_workers = self.calculate_num_workers()
-        self.expected_yield_kg = self.calculate_expected_yield()
-        self.cost_estimate = self.calculate_cost()
-        self.next_harvest_date = self.get_next_harvest_date()
-        super().save(*args, **kwargs)
-
-    def choose_harvest_type(self):
-        # Prefer machine if the slope is not steep and the elevation is not very high
-        if self.field.slope.lower() != 'steep' and self.field.elevation < 1000:
-            return 'machine'
-        return 'manual'
-
     def calculate_num_workers(self):
-        # Example logic based on farm size and harvesting method
         field_size = self.field.size
-        if self.harvest_type == 'manual':
-            # Manual harvest requires more workers (around 10 workers per hectare, adjust as necessary)
-            return int(field_size * 10)  # 10 workers per hectare
-        elif self.harvest_type == 'machine':
-            # Machine harvest requires fewer workers (around 2 workers per hectare)
-            return max(1, int(field_size * 2))  # At least 1 worker for machine
+        if self.activity_type == 'harvest':
+            return max(1, int(field_size * 15))  # 15 workers per hectare for tea harvesting
+        elif self.activity_type == 'pruning':
+            return max(1, int(field_size * 10))  # 10 workers per hectare
+        elif self.activity_type == 'irrigation':
+            return max(1, int(field_size * 5))  # 5 workers per hectare
+        elif self.activity_type == 'fertilizing':
+            return max(1, int(field_size * 8))  # 8 workers per hectare
         return 0
 
     def calculate_expected_yield(self):
-        # Elevation affects yield, but also soil type and weather play a big role
-        elevation_factor = Decimal(100) - (Decimal(self.field.elevation) * Decimal(0.05)) if self.field.elevation else Decimal(0)
-        soil_quality_factor = Decimal(1.2)  # Example: Soil quality impacts yield by 20%
-        return round(self.field.size * elevation_factor * soil_quality_factor, 2)
+        if self.activity_type != 'harvest':
+            return Decimal(0)
+        elevation_factor = Decimal(1.0 - (self.field.elevation * 0.0001))  # Decrease by 0.01% per meter elevation
+        yield_per_hectare = Decimal(500)  # Average yield in kg per hectare
+        return round(self.field.size * yield_per_hectare * elevation_factor, 2)
 
     def calculate_cost(self):
-        # Calculate cost based on the harvesting method and number of workers
-        labor_cost_per_worker = 100 if self.harvest_type == 'manual' else 50
-        machine_cost_per_hectare = 500 if self.harvest_type == 'machine' else 0
-        # Cost formula includes both worker and machine cost (machine cost is per hectare)
-        return (self.num_workers * labor_cost_per_worker) + (machine_cost_per_hectare * self.field.size)
+        labor_cost_per_worker = Decimal(150)  # Average daily cost per worker
+        field_size = self.field.size
+        if self.activity_type == 'harvest':
+            return round(self.num_workers * labor_cost_per_worker, 2)
+        elif self.activity_type in ['pruning', 'irrigation', 'fertilizing']:
+            activity_cost = Decimal(300 if self.activity_type == 'fertilizing' else 200) * field_size
+            return round((self.num_workers * labor_cost_per_worker) + activity_cost, 2)
+        return Decimal(0)
 
     def get_next_harvest_date(self):
-        # If self.date is None, set it to the current date and time
+        """
+        Calculate the next harvest date based on a fixed interval.
+        """
+        harvest_interval = 14  # Default interval for tea harvesting in days
+        base_date = self.date or timezone.now()
+        return base_date + timedelta(days=harvest_interval)
+
+    def save(self, *args, **kwargs):
         if not self.date:
-            self.date = timezone.now()  # Assuming you're using Django's timezone functionality
-        # Next harvest is approximately 14 days from the current date
-        return self.date + timedelta(days=14)
+            self.date = timezone.now()
+
+        if self.activity_type == 'harvest':
+            self.num_workers = self.calculate_num_workers()
+            self.expected_yield_kg = self.calculate_expected_yield()
+            self.next_harvest_date = self.get_next_harvest_date()
+        else:
+            self.num_workers = self.calculate_num_workers()
+            self.expected_yield_kg = Decimal(0)
+            self.next_harvest_date = None
+
+        self.cost_estimate = self.calculate_cost()
+        super().save(*args, **kwargs)
+
+
+
+
+
 
 
 class Alert(models.Model):

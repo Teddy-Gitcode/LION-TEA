@@ -50,6 +50,7 @@ class ActivityCreateView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
+        # This will save the activity instance
         serializer.save()
 
 class ActivityListView(generics.ListAPIView):
@@ -57,8 +58,24 @@ class ActivityListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        # Get the field_id from the URL and filter activities for the current user and field
         field_id = self.kwargs['field_id']
         return Activity.objects.filter(field__id=field_id, field__user=self.request.user)
+
+class ActivityDeleteView(generics.DestroyAPIView):
+    serializer_class = ActivitySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # Ensure that only the authenticated user's activities can be deleted
+        field_id = self.kwargs['field_id']
+        return Activity.objects.filter(field__id=field_id, field__user=self.request.user)
+
+    def delete(self, request, *args, **kwargs):
+        activity = self.get_object()
+        activity.delete()  # This will delete the specific activity instance
+        return Response({"detail": "Activity deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+    
 
 # Alert Views
 class AlertCreateView(generics.CreateAPIView):

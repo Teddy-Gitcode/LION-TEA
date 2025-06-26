@@ -39,8 +39,8 @@ class CustomUserManager(BaseUserManager):
 # Custom user model
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     user_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    name = models.CharField(max_length=10)
-    phone_number = models.CharField(max_length=15, unique=True)
+    name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=20, unique=True)
     email = models.EmailField(max_length=255, unique=True)
    
     is_active = models.BooleanField(default=True)

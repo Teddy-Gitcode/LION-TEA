@@ -1,0 +1,10 @@
+Django>=4.2,<5.0
+# For JSONField support in older Django versions (if needed)
+djangorestframework>=3.14,<4.0
+# For handling decimal and date fields
+pytz
+# For machine learning (since there is a .keras model)
+tensorflow>=2.11,<3.0
+# For database backup/restore (optional, if used)
+# django-dbbackup
+# For any other common utilities 

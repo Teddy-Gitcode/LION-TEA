@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    FieldCreateView, FieldListView, FieldDeleteView, 
+    ActivityDeleteView, FieldCreateView, FieldListView, FieldDeleteView, 
     ActivityCreateView, ActivityListView, AlertCreateView, AlertListView,
 )
 
@@ -12,7 +12,13 @@ urlpatterns = [
 
     # Activity URLs
     path('field/activity/create/', ActivityCreateView.as_view(), name='create_activity'),
-    path('field/activity/list/<int:field_id>/', ActivityListView.as_view(), name='list_activity'),  # Added field_id as part of URL
+    path('field/activity/list/<int:field_id>/', ActivityListView.as_view(), name='list_activity'),
+    
+    path('farms/field/activity/delete/<int:field_id>/<int:activity_id>/', ActivityDeleteView.as_view(), name='activity-delete'),
+
+
+
+# Added field_id as part of URL
 
     # Alert URLs
     path('alert/create/', AlertCreateView.as_view(), name='create_alert'),
