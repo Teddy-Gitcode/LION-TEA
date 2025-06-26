@@ -5,8 +5,9 @@ djangorestframework>=3.14,<4.0
 # For handling decimal and date fields
 pytz
 # For machine learning (since there is a .keras model) - Python 3.11 compatible
-tensorflow==2.15.0
-
+# tensorflow==2.15.0  # Temporarily disabled - not compatible with Python 3.13.4
+# Try tensorflow-cpu which might work with Python 3.13
+tensorflow-cpu>=2.15.0
 # For database backup/restore (optional, if used)
 # django-dbbackup
 # For any other common utilities 
