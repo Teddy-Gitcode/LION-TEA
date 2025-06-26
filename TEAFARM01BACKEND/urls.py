@@ -27,5 +27,5 @@ urlpatterns = [
     #path('api/companies/', include('companies.urls')),
     #path('api/notifications/', include('notifications.urls')),
     #path('chat/', include('chat.urls')),
-    path('api/drone',include('drone.urls')),
+    #path('api/drone',include('drone.urls')),
 ]

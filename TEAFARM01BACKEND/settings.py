@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'companies',
     'notifications',
     'chat',
-    'drone',
+    #'drone',
 ]
 REST_FRAMEWORK = {
     
