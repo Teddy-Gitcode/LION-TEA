@@ -4,7 +4,7 @@ djangorestframework>=3.14,<4.0
 # For handling decimal and date fields
 pytz
 # For machine learning (since there is a .keras model)
-tensorflow==2.17.0
+tensorflow
 # For database backup/restore (optional, if used)
 # django-dbbackup
 # For any other common utilities 
