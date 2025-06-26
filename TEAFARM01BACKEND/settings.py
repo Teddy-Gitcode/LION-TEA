@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     
     'users',
     'farm',
-    'disease_detection',
+    #'disease_detection',
     'weather',
     'ecommerce',
     'companies',
