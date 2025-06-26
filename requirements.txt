@@ -4,6 +4,8 @@ Django>=4.2,<5.0
 djangorestframework>=3.14,<4.0
 # For JWT authentication
 djangorestframework-simplejwt>=5.0.0
+# For CORS (Cross-Origin Resource Sharing)
+django-cors-headers>=4.0.0
 # For handling decimal and date fields
 pytz
 # For machine learning (since there is a .keras model) - Python 3.11 compatible
