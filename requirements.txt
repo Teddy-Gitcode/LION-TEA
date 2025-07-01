@@ -16,4 +16,5 @@ tensorflow-cpu>=2.15.0
 gunicorn>=21.0.0
 # For database backup/restore (optional, if used)
 # django-dbbackup
-# For any other common utilities 
+# For any other common utilities
+whitenoise 
