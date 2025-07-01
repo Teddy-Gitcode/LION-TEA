@@ -12,6 +12,15 @@ class SignupSerializer(serializers.ModelSerializer):
         fields = ['name', 'phone_number', 'email', 'password',]  # Include gender first
         extra_kwargs = {'password': {'write_only': True}}
 
+    def validate(self, data):
+        email = data.get('email')
+        phone_number = data.get('phone_number')
+        if User.objects.filter(email=email).exists():
+            raise serializers.ValidationError({'email': 'This email is already taken.'})
+        if User.objects.filter(phone_number=phone_number).exists():
+            raise serializers.ValidationError({'phone_number': 'This phone number is already taken.'})
+        return data
+
     def create(self, validated_data):
         user = User(
             email=validated_data['email'],
