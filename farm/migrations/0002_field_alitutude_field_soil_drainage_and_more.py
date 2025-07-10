@@ -18,26 +18,26 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='field',
             name='soil_drainage',
-            field=models.CharField(blank=True, max_length=10, null=True),
+            field=models.CharField(blank=True, max_length=50, null=True),
         ),
         migrations.AddField(
             model_name='field',
             name='soil_fertility',
-            field=models.CharField(blank=True, max_length=10, null=True),
+            field=models.CharField(blank=True, max_length=50, null=True),
         ),
         migrations.AddField(
             model_name='field',
             name='soil_structure',
-            field=models.CharField(blank=True, max_length=10, null=True),
+            field=models.CharField(blank=True, max_length=50, null=True),
         ),
         migrations.AddField(
             model_name='field',
             name='soil_type',
-            field=models.CharField(blank=True, max_length=10, null=True),
+            field=models.CharField(blank=True, max_length=50, null=True),
         ),
         migrations.AddField(
             model_name='field',
             name='tea_variety',
-            field=models.CharField(blank=True, max_length=10, null=True),
+            field=models.CharField(blank=True, max_length=50, null=True),
         ),
     ]

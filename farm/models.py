@@ -7,12 +7,12 @@ from django.utils import timezone # type: ignore
 class Field(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='fields')
     location = models.CharField(max_length=255)
-    tea_variety = models.CharField(max_length=10, null=True,blank=True)
+    tea_variety = models.CharField(max_length=50, null=True,blank=True)
     alitutude = models.IntegerField(blank=True,null=True)
     soil_type = models.CharField(max_length=255,blank=True,null=True)
-    soil_fertility = models.CharField(max_length=10,blank=True,null=True)
-    soil_structure = models.CharField(max_length=10,blank=True,null=True)
-    soil_drainage = models.CharField(max_length=10,blank=True,null=True)
+    soil_fertility = models.CharField(max_length=50,blank=True,null=True)
+    soil_structure = models.CharField(max_length=50,blank=True,null=True)
+    soil_drainage = models.CharField(max_length=50,blank=True,null=True)
     
     size = models.DecimalField(max_digits=10, decimal_places=2, help_text="Size in hectares")
     elevation = models.IntegerField(null=True, blank=True, help_text="Elevation in meters")

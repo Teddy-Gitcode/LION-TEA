@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     'notifications',
     'chat',
     #'drone',
+    'core',
 ]
 REST_FRAMEWORK = {
     
@@ -145,8 +147,13 @@ WSGI_APPLICATION = 'TEAFARM01BACKEND.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Use SQLite backend
-        'NAME': BASE_DIR / 'db.sqlite3',  # Path to your SQLite database file
+        'ENGINE': 'django.db.backends.postgresql',
+        'DISABLE_SERVER_SIDE_CURSORS': True,
+        'NAME': 'farm_management_system',
+        'USER': 'postgres',
+        'PASSWORD': '434wxg79',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

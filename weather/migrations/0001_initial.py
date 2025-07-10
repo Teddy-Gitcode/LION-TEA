@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name='Weather',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('city', models.CharField(max_length=100)),
+                ('city', models.CharField(max_length=500)),
                 ('temperature', models.FloatField()),
                 ('humidity', models.IntegerField()),
                 ('description', models.CharField(max_length=255)),

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lion Tea Backend</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e8f5e9 0%, #a5d6a7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto', sans-serif;
+        }
+        .container {
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(44, 62, 80, 0.10);
+            padding: 48px 32px;
+            text-align: center;
+            max-width: 520px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .tea-cup {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 24px auto;
+            position: relative;
+            animation: float 2.5s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-18px); }
+        }
+        .cup {
+            width: 100px;
+            height: 60px;
+            background: #e8f5e9;
+            border-radius: 0 0 50px 50px / 0 0 60px 60px;
+            border: 4px solid #388e3c;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        .tea {
+            width: 88px;
+            height: 36px;
+            background: linear-gradient(135deg, #81c784 60%, #c8e6c9 100%);
+            border-radius: 0 0 44px 44px / 0 0 36px 36px;
+            position: absolute;
+            left: 6px;
+            bottom: 4px;
+        }
+        .handle {
+            width: 32px;
+            height: 48px;
+            border: 4px solid #388e3c;
+            border-left: none;
+            border-radius: 0 32px 32px 0 / 0 48px 48px 0;
+            position: absolute;
+            right: -28px;
+            top: 12px;
+            background: transparent;
+        }
+        .steam {
+            position: absolute;
+            left: 32px;
+            top: -30px;
+            width: 36px;
+            height: 36px;
+        }
+        .steam span {
+            display: block;
+            width: 8px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, rgba(56,142,60,0.2) 0%, rgba(255,255,255,0) 100%);
+            margin: 0 4px;
+            float: left;
+            animation: steamUp 2s infinite ease-in-out;
+        }
+        .steam span:nth-child(2) {
+            animation-delay: 0.7s;
+        }
+        .steam span:nth-child(3) {
+            animation-delay: 1.2s;
+        }
+        @keyframes steamUp {
+            0% { opacity: 0; transform: translateY(20px) scaleX(1); }
+            30% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-20px) scaleX(0.7); }
+        }
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            color: #388e3c;
+            margin-bottom: 12px;
+        }
+        .subtitle {
+            color: #388e3c;
+            font-size: 1.2rem;
+            margin-bottom: 18px;
+            font-weight: 500;
+        }
+        p, ul {
+            color: #444;
+            font-size: 1.08rem;
+            margin-bottom: 0.7em;
+        }
+        ul {
+            text-align: left;
+            margin: 0 auto 1.2em auto;
+            max-width: 400px;
+            padding-left: 1.2em;
+        }
+        .api-link {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 10px 24px;
+            background: #388e3c;
+            color: #fff;
+            border-radius: 24px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .api-link:hover {
+            background: #256029;
+        }
+        .footer {
+            margin-top: 32px;
+            color: #81c784;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tea-cup">
+            <div class="cup"></div>
+            <div class="tea"></div>
+            <div class="handle"></div>
+            <div class="steam">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <h1>Lion Tea Backend</h1>
+        <div class="subtitle">Empowering Farmers, Connecting Communities</div>
+        <p><strong>Lion Tea</strong> is a digital platform designed to support tea farmers and stakeholders with modern tools for farm management, disease detection, weather insights, and more.</p>
+        <ul>
+            <li><strong>Farm Management:</strong> Track activities, harvests, and resources for better productivity.</li>
+            <li><strong>Disease Detection:</strong> Use AI-powered tools to identify crop diseases early and take action.</li>
+            <li><strong>Weather Monitoring:</strong> Get real-time weather updates tailored to your farm's location.</li>
+            <li><strong>Drone Integration:</strong> Leverage drone technology for field analysis and monitoring.</li>
+            <li><strong>E-commerce:</strong> Connect with buyers and sell your produce directly from the platform.</li>
+            <li><strong>Community Chat:</strong> Engage with other farmers, share experiences, and get expert advice.</li>
+        </ul>
+        <p>Our mission is to make farming smarter, more sustainable, and more profitable for everyone in the tea value chain.</p>
+        <a class="api-link" href="/admin/">Go to Admin</a>
+        <div class="footer">&copy; 2024 Lion Tea Project. Built for farmers, by innovators.</div>
+    </div>
+</body>
+</html> 

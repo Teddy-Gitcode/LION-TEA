@@ -1,20 +1,29 @@
-# Python 3.11 compatible requirements
+# Django and DRF
 Django>=4.2,<5.0
-# For JSONField support in older Django versions (if needed)
 djangorestframework>=3.14,<4.0
-# For JWT authentication
+
+# JWT Authentication
 djangorestframework-simplejwt>=5.0.0
-# For CORS (Cross-Origin Resource Sharing)
+
+# CORS support
 django-cors-headers>=4.0.0
-# For handling decimal and date fields
+
+# Timezone handling
 pytz
-# For machine learning (since there is a .keras model) - Python 3.11 compatible
-# tensorflow==2.15.0  # Temporarily disabled - not compatible with Python 3.13.4
-# Try tensorflow-cpu which might work with Python 3.13
-tensorflow-cpu>=2.15.0
-# For production deployment (WSGI server)
+
+# Machine Learning (TensorFlow CPU version)
+#tensorflow-cpu>=2.15.0
+
+# Production server
 gunicorn>=21.0.0
-# For database backup/restore (optional, if used)
-# django-dbbackup
-# For any other common utilities
-whitenoise 
+
+# Static file serving
+whitenoise
+
+# Admin UI customization
+django-jazzmin
+
+# PostgreSQL support
+psycopg2
+#requests
+requests

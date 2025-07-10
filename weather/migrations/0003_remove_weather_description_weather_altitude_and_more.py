@@ -35,22 +35,22 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='weather',
             name='soil_drainage',
-            field=models.CharField(blank=True, max_length=100),
+            field=models.CharField(blank=True, max_length=500),
         ),
         migrations.AddField(
             model_name='weather',
             name='soil_fertility',
-            field=models.CharField(blank=True, max_length=100),
+            field=models.CharField(blank=True, max_length=500),
         ),
         migrations.AddField(
             model_name='weather',
             name='soil_structure',
-            field=models.CharField(blank=True, max_length=100),
+            field=models.CharField(blank=True, max_length=500),
         ),
         migrations.AddField(
             model_name='weather',
             name='soil_type',
-            field=models.CharField(blank=True, max_length=100),
+            field=models.CharField(blank=True, max_length=500),
         ),
         migrations.AddField(
             model_name='weather',
