@@ -19,7 +19,9 @@ if not User.objects.filter(email=email).exists():
         email=email,
         password=password,
         phone_number=phone_number,
-        name=name
+        name=name,
+        is_staff=True,
+        is_superuser=True
     )
     print(f"✅ Superuser '{email}' created.")
 else:
