@@ -4,7 +4,7 @@ import django
 from django.contrib.auth import get_user_model
 
 # Replace this with your actual settings module if different
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "liontea.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "TEAFARM01BACKEND.settings")
 django.setup()
 
 User = get_user_model()
