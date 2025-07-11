@@ -154,12 +154,18 @@ DATABASES = {
         #'PASSWORD': '434wxg79',
         #'HOST': 'localhost',
         #'PORT': '5432',
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'lion_tea',  # from your Render dashboard
+        # 'USER': 'lion_tea_user',  # from your Render dashboard
+        # 'PASSWORD': 'eFRX14sPiBTCv3gI7k9QUSdBGGa7VKKy',  # copy from Render dashboard
+        # 'HOST': 'dpg-d1o4j63e5dus73co4hjg-a',  # from your Render dashboard
+        # 'PORT': '5432', 
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'lion_tea',  # from your Render dashboard
-        'USER': 'lion_tea_user',  # from your Render dashboard
-        'PASSWORD': 'eFRX14sPiBTCv3gI7k9QUSdBGGa7VKKy',  # copy from Render dashboard
-        'HOST': 'dpg-d1o4j63e5dus73co4hjg-a',  # from your Render dashboard
-        'PORT': '5432',  # from your Render dashboard
+        'NAME': 'lion_tea',
+        'USER': 'lion_tea_user',
+        'PASSWORD': 'eFRX14sPiBTCv3gI7k9QUSdBGGa7VKKy',  # Paste the password from Render
+        'HOST': 'dpg-d1o4j63e5dus73co4hjg-a', # This is the external hostname
+        'PORT': '5432',# from your Render dashboard
     }
 }
 
