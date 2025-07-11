@@ -6,6 +6,7 @@ from django.utils import timezone # type: ignore
 
 class Field(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='fields')
+    user_field_id = models.PositiveIntegerField()
     location = models.CharField(max_length=255)
     tea_variety = models.CharField(max_length=50, null=True,blank=True)
     alitutude = models.IntegerField(blank=True,null=True)
@@ -18,8 +19,15 @@ class Field(models.Model):
     elevation = models.IntegerField(null=True, blank=True, help_text="Elevation in meters")
     slope = models.CharField(max_length=50, help_text="Slope description, e.g., 'steep', 'gentle'")
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            last_field = self.__class__.objects.filter(user=self.user).order_by('-user_field_id').first()
+            self.user_field_id = 1 if not last_field else last_field.user_field_id + 1
+        super().save(*args, **kwargs)
+
     def __str__(self):
-        return f"Field ID: {self.id}, Location: {self.location}, User Email: {self.user.email}"
+        user_email = getattr(self.user, 'email', 'unknown')
+        return f"Field #{self.user_field_id} (User: {user_email}) - Location: {self.location}"
 
 
 
