@@ -3,6 +3,7 @@ from users.models import CustomUser
 from decimal import Decimal
 from datetime import timedelta
 from django.utils import timezone # type: ignore
+from django.db.models import Max
 
 class Field(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='fields')
@@ -21,8 +22,8 @@ class Field(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            last_field = self.__class__.objects.filter(user=self.user).order_by('-user_field_id').first()
-            self.user_field_id = 1 if not last_field else last_field.user_field_id + 1
+            max_id = self.__class__.objects.filter(user=self.user).aggregate(Max('user_field_id'))['user_field_id__max']
+            self.user_field_id = 1 if not max_id else max_id + 1
         super().save(*args, **kwargs)
 
     def __str__(self):
