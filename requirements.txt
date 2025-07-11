@@ -27,3 +27,4 @@ django-jazzmin
 psycopg2
 #requests
 requests
+psycopg2-binary

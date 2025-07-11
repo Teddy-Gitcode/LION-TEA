@@ -9,10 +9,10 @@ django.setup()
 
 User = get_user_model()
 
-email = "lonewalker634@gmail.com"
+email = "adminted@gmail.com"
 password = "434wxg79"
-phone_number = "0770635336"  # <-- REQUIRED, must be unique
-name = "admin"  # optional
+phone_number = "0777777777"  # <-- REQUIRED, must be unique
+name = "adminted"  # optional
 
 if not User.objects.filter(email=email).exists():
     User.objects.create_superuser(
