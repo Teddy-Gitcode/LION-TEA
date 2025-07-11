@@ -9,7 +9,9 @@ class FieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = Field
         fields = [
-            'id', 'user','location', 'tea_variety','alitutude', 'soil_type','soil_fertility','soil_structure','soil_drainage','size', 'slope', 'elevation'
+            'id',  # global id
+            'user_field_id',  # per-user id
+            'user', 'location', 'tea_variety','alitutude', 'soil_type','soil_fertility','soil_structure','soil_drainage','size', 'slope', 'elevation'
         ]
 
 
