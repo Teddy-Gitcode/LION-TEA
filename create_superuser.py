@@ -9,12 +9,18 @@ django.setup()
 
 User = get_user_model()
 
-username = "admin"
 email = "lonewalker634@gmail.com"
 password = "434wxg79"
+phone_number = "0770635336"  # <-- REQUIRED, must be unique
+name = "admin"  # optional
 
-if not User.objects.filter(username=username).exists():
-    User.objects.create_superuser(username=username, email=email, password=password)
-    print(f"✅ Superuser '{username}' created.")
+if not User.objects.filter(email=email).exists():
+    User.objects.create_superuser(
+        email=email,
+        password=password,
+        phone_number=phone_number,
+        name=name
+    )
+    print(f"✅ Superuser '{email}' created.")
 else:
-    print(f"ℹ️ Superuser '{username}' already exists.")
+    print(f"ℹ️ Superuser '{email}' already exists.")
