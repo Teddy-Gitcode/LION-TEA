@@ -6,7 +6,7 @@ from django.utils import timezone # type: ignore
 
 class Field(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='fields')
-    user_field_id = models.PositiveIntegerField()
+    user_field_id = models.PositiveIntegerField(null=True, blank=True)
     location = models.CharField(max_length=255)
     tea_variety = models.CharField(max_length=50, null=True,blank=True)
     alitutude = models.IntegerField(blank=True,null=True)
