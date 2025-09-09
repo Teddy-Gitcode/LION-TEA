@@ -23,8 +23,5 @@ whitenoise
 # Admin UI customization
 django-jazzmin
 
-# PostgreSQL support
-psycopg2
 #requests
 requests
-psycopg2-binary
